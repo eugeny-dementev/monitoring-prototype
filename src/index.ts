@@ -28,11 +28,7 @@ async function searchTorrents(torrentName: string): Promise<Array<{ title: strin
 
     // Map to a simple format or use the data as you wish
     const torrents = data.Results.map((torrent: any) => ({
-      title: torrent.Title,
-      size: torrent.Size,
-      seeders: torrent.Seeders,
-      link: torrent.Link,
-      downloadLink: torrent.MagnetUri
+      ...torrent,
     }));
 
     return torrents;
@@ -68,17 +64,19 @@ async function downloadTorrentFile(downloadLink: string, fileName: string) {
 // Example usage
 searchTorrents('Arcane 2 4k').then(torrents => {
   torrents.forEach((torrent: any) => {
-    console.log(`Title: ${torrent.title}`);
-    console.log(`Size: ${torrent.size}`);
-    console.log(`Seeders: ${torrent.seeders}`);
-    console.log(`Magnet Link: ${torrent.link}\n`);
-
-
+    console.log(`Title: ${torrent.Title}`);
+    console.log(`Size: ${torrent.Size}`);
+    console.log(`Seeders: ${torrent.Seeders}`);
+    console.log(`Magnet Link: ${torrent.Link}\n`);
+    console.log('Torrent:', torrent);
   });
 });
 
 async function run() {
   const torrents = await searchTorrents('Arcane 2 4k');
+
+  console.log(torrents)
+  return
 
   for (const torrent of torrents) {
     console.log('Downloading', torrent.title);
